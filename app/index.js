@@ -9,8 +9,8 @@ $(document).ready(function (){
 
     $.get('/images/deck.json',function(data){
         deck = (data);
-        console.log(1)
-    
+        
+        console.log(window.location.pathname)
 
 //functions
 var thisUser='vinoth'
