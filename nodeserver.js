@@ -17,7 +17,6 @@ app.get('/app',function(req,res){
   
   res.sendFile((__dirname+'/app/index.html'));
 });
-
 app.get('*',function(req,res){
   res.send("<center><h1>Page not found</h1></center>");
 });
