@@ -105,7 +105,7 @@ function getLog(){
 
 function loadImage(cards){
     for(let i=0;i<4;i++){
-    let img = "../images/cards/" + cards[i] + ".jpg"
+    let img = "/images/cards/" + cards[i] + ".jpg"
         //alert(img);
     $(".cardimages").eq(i).attr("src",img)
     }
