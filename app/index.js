@@ -2,6 +2,9 @@
 $(document).ready(function (){
 
     var deck = {};
+    var thisUser='vinoth'
+    var selectedCard=-1;
+
     $.get('/images/sequenceboard.txt',function(data){
         $("#board").css("background-image",'url(' + data +')')
         return;
@@ -9,15 +12,13 @@ $(document).ready(function (){
 
     $.get('/images/deck.json',function(data){
         deck = (data);
-        
-        console.log(window.location.pathname)
-
+        loadCard(thisUser);
+        getLog();
+    return;
+    })
 //functions
-var thisUser='vinoth'
 
-var selectedCard=-1;
-loadCard(thisUser);
-getLog();
+
 
 //actions   
 $("td").on('click' , function(event){
@@ -124,6 +125,4 @@ function loadImage(cards){
     return
 }
 
-return;
-})
 });
