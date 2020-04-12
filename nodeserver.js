@@ -11,7 +11,7 @@ var game;
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-var port = 2020;
+var port = process.env.PORT || 8080;
 
 
 app.get('/port',function(req,res){
