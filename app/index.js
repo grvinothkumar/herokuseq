@@ -9,8 +9,8 @@ $(document).ready(function (){
 
     $.get('/images/deck.json',function(data){
         deck = (data);
-        return;
-    })
+        console.log(1)
+    
 
 //functions
 var thisUser='vinoth'
@@ -116,9 +116,14 @@ function getLog(){
 
 function loadImage(cards){
     for(let i=0;i<4;i++){
-    let img = deck[cards[i]]    //"/images/cards/" + cards[i] + ".jpg"
+    let img = deck[cards[i]] || ""   //"/images/cards/" + cards[i] + ".jpg"
     $(".cardimages").eq(i).attr("src",img)
+    $(".cardimages").eq(i).attr("alt",cards[i])
+    
     }
     return
 }
+
+return;
+})
 });
