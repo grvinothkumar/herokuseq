@@ -11,10 +11,11 @@ var game;
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+var port = process.env.PORT || 8080;
 
 app.get('/app',function(req,res){
   
-  res.send("Success");
+  res.sendFile((__dirname+'/app/index.html'));
 });
 
 app.get('*',function(req,res){
@@ -54,5 +55,6 @@ app.post('/log',function(req,res){
     res.end("Error")
   }
 });
-app.listen(2020);
-console.log("server running in 2020")
+app.listen(port,function(){
+  console.log("server running in " + port)
+});
