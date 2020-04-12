@@ -26,7 +26,7 @@ table{
 #board{
     border:1px solid black;
     margin-left:30px;
-    background-image:url("../images/sequenceboard.jfif");
+    background-image:url("../images/sequenceboard.png");
     background-size: 100% 100%;
     max-width:550px;
     min-width:550px;
@@ -71,7 +71,6 @@ table{
 #card1, #card2, #card3, #card4{
     width:100%;
     height:175px;
-
 }
 
 #dropLog{
