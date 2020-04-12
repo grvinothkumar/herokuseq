@@ -1,8 +1,14 @@
 
 $(document).ready(function (){
 
-    $.get('/images/card.txt',function(data){
+    var deck = {};
+    $.get('/images/sequenceboard.txt',function(data){
         $("#board").css("background-image",'url(' + data +')')
+        return;
+    })
+
+    $.get('/images/deck.json',function(data){
+        deck = (data);
         return;
     })
 
@@ -110,8 +116,7 @@ function getLog(){
 
 function loadImage(cards){
     for(let i=0;i<4;i++){
-    let img = "/images/cards/" + cards[i] + ".jpg"
-        //alert(img);
+    let img = deck[cards[i]]    //"/images/cards/" + cards[i] + ".jpg"
     $(".cardimages").eq(i).attr("src",img)
     }
     return
