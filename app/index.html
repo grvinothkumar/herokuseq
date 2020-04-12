@@ -1,5 +1,60 @@
+
+<!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="./styles.css">
+<script src="../js/jquery-3.4.1.min.js"></script>
+<script src="./index.js"></script>
+<!--<meta http-equiv="refresh" content="3">-->
+<title>Sequence Game</title>
+</head>
 <body>
-Test Page
+
+<h1 class="header">Sequence</h1>
+<input type='button' id='initGame' value='Init'>
+
+<!--<img id='board' src="../images/sequenceboard.jfif">-->
+
+<div class='container'>
+
+    <div id='board'>
+        <table id='boardtable'>
+                <tbody>
+                    <tr><td></td><td id='2S'></td><td id='3S'></td><td id='4S'></td><td id='5S'></td><td id='6S'></td><td id='7S'></td><td id='8S'></td><td id='9S'></td><td></td></tr>
+                    <tr><td id='6C'></td><td id='5C'></td><td id='4C'></td><td id='3C'></td><td id='2C'></td><td id='AH'></td><td id='KH'></td><td id='QH'></td><td id='10H'></td><td id='10S'></td></tr>
+                    <tr><td id='7C'></td><td id='AS'></td><td id='2D'></td><td id='3D'></td><td id='4D'></td><td id='5D'></td><td id='6D'></td><td id='7D'></td><td id='9H'></td><td id='QS'></td></tr>
+                    <tr><td id='8C'></td><td id='KS'></td><td id='6C'></td><td id=5C></td><td id='4C'></td><td id='3C'></td><td id='2C'></td><td id='8D'></td><td id='8H'></td><td id='KS'></td></tr>
+                    <tr><td id='9C'></td><td id='QS'></td><td id='7C'></td><td id='6H'></td><td id='5H'></td><td id='4H'></td><td id='AH'></td><td id='9D'></td><td id='7H'></td><td id='AS'></td></tr>
+                    <tr><td id='10C'></td><td id='10S'></td><td id='8C'></td><td id='7H'></td><td id='2H'></td><td id='3H'></td><td id='KH'></td><td id='10D'></td><td id='6H'></td><td id='2D'></td></tr>
+                    <tr><td id='QC'></td><td id='9S'></td><td id='9C'></td><td id='8H'></td><td id='9H'></td><td id='10H'></td><td id='QH'></td><td id='QD'></td><td id='5H'></td><td id='3D'></td></tr>
+                    <tr><td id='KC'></td><td id='8S'></td><td id='10C'></td><td id='QC'></td><td id='KC'></td><td id='AC'></td><td id='AD'></td><td id='KD'></td><td id='4H'></td><td id='4D'></td></tr>
+                    <tr><td id='AC'></td><td id='7S'></td><td id='6S'></td><td id='5S'></td><td id='4S'></td><td id='3S'></td><td id='2S'></td><td id='2H'></td><td id='3H'></td><td id='5D'></td></tr>
+                    <tr><td></td><td id=AD></td><td id="KD"></td><td id='QD'></td><td id='10D'></td><td id='9D'></td><td id='8D'></td><td id='7D'></td><td id='6D'></td><td></td></tr>
+                </tbody>
+        </table>
+    </div>
+
+    <div id='mycards'>
+        <div>
+        <table id='mycardstable'>
+            <tbody>
+                <tr class='mycardrow'>
+                    <td class='mycardcol' id=0><img class="cardimages" id='card1' src="../images/cards/cardcover.jpg" alt="No Card"></td>
+                    <td class='mycardcol' id=1><img class="cardimages" id='card2' src="../images/cards/cardcover.jpg" alt="No Card"></td>
+                </tr>
+                <tr class='mycardrow'>
+                    <td class='mycardcol' id=2><img class="cardimages" id='card3' src="../images/cards/cardcover.jpg" alt="No Card"></td>
+                    <td class='mycardcol' id=3><img class="cardimages" id='card4' src="../images/cards/cardcover.jpg" alt="No Card"></td>
+                </tr>
+                <tr><td colspan=2><input type='button' id='dropCard' value='Drop'></td></tr>
+            </tbody>
+
+        </table>
+     
+        </div>
+    </div>
+</div>
+<textarea id='dropLog' rows=15 cols=50></textarea>
+</div>
 </body>
 </html>

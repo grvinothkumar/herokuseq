@@ -1,7 +1,7 @@
 {
   "name": "sequence",
   "version": "1.0.0",
-  "description": "sequence",
+  "description": "sequence game",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -12,5 +12,15 @@
   "devDependencies": {},
   "scripts": {
     "start": "node nodeserver"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grvinothkumar/sequence.git"
+  },
+  "author": "rvk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grvinothkumar/sequence/issues"
+  },
+  "homepage": "https://github.com/grvinothkumar/sequence#readme"
 }

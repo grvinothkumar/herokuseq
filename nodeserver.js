@@ -4,14 +4,13 @@ var bodyParser = require("body-parser");
 /* const path = require('path');
 const router = express.Router();
 const https = require('https');
-const fs = require('fs'); 
-const Deck = require('./js/deck.js'); */
+const fs = require('fs');  */
+const Deck = require('./js/deck.js');
 var game;
 
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-var port = process.env.PORT || 8080;
 
 app.get('/app',function(req,res){
   
@@ -55,6 +54,5 @@ app.post('/log',function(req,res){
     res.end("Error")
   }
 });
-app.listen(port,function(){
-  console.log("server running in " + port)
-});
+app.listen(2020);
+console.log("server running in 2020")
