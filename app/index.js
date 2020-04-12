@@ -1,6 +1,11 @@
 
 $(document).ready(function (){
-    console.log(window.location.pathname);
+
+    $.get('/images/card.txt',function(data){
+        $("#board").css("background-image",'url(' + data +')')
+        return;
+    })
+
 //functions
 var thisUser='vinoth'
 

@@ -26,7 +26,6 @@ table{
 #board{
     border:1px solid black;
     margin-left:30px;
-    background-image:url("../images/card.txt");
     background-size: 100% 100%;
     max-width:550px;
     min-width:550px;
