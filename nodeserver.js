@@ -6,6 +6,7 @@ const router = express.Router();
 const https = require('https');
 const fs = require('fs');  */
 const Deck = require('./js/deck.js');
+var gamestarted = false;
 var game;
 
 app.use(express.static(__dirname + '/'));
@@ -55,6 +56,15 @@ app.post('/log',function(req,res){
   try{
   var log = JSON.stringify(game.log());
   res.end(log);
+  }
+  catch(err){
+    res.end("Error")
+  }
+})
+app.post('/started',function(req,res){
+  try{
+  var gamestatus = JSON.stringify(game.gamestarted);
+  res.end(gamestatus);
   }
   catch(err){
     res.end("Error")

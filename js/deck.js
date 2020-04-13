@@ -6,6 +6,7 @@ class Deck {
         this.playerList = players;
         this.players={};
         this.dropLog=[];
+        this.gamestarted = false;
         }
 
     shuffle(deck){
@@ -32,6 +33,8 @@ class Deck {
             })        
         }
         this.players = players;
+        console.log(this.players);
+        this.gamestarted=true;
         return ;
         }
     
@@ -40,6 +43,15 @@ class Deck {
             this.dropDeck.push(dropCard);
             this.players[playerName][index]=this.deck.shift();
             this.dropLog.push({"player":playerName,"dropCard":dropCard})
+            console.log(this.deck)
+
+            if(this.deck.length==0){
+                this.deck=this.shuffle(this.dropDeck);
+                this.dropDeck=[];
+                console.log(this.deck);
+                console.log(this.dropDeck);
+            }
+
             return (this.players[playerName]);
         }
 
@@ -49,6 +61,11 @@ class Deck {
 
         log(){
             return (this.dropLog);
+        }
+
+        gamestatus(){
+            console.log(this.gamestarted);
+            return(this.gamestarted);
         }
 }
 
