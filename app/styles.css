@@ -8,7 +8,9 @@
 table{
     border-collapse: collapse;
 }
-
+label{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 
 
 .container{
