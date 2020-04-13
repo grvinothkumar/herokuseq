@@ -54,18 +54,7 @@ $(document).ready(function (){
         
        
 
-        $.get('/images/sequenceboard.txt',function(data){
-            $("#board").css("background-image",'url(' + data +')')
-            //alert("ye");
-            return;
-        })
-
-        $.get('/images/deck.json',function(data){
-            deck = (data);
-            loadCard(thisUser);
-            getLog();
-            return;
-        })
+        
 
 
         //functions Load Game page
@@ -73,6 +62,19 @@ $(document).ready(function (){
         $.get("gameboard.html", function(data, status){
                 $(".container").html(data);
 
+                $.get('/images/sequenceboard.txt',function(data){
+                    $("#board").css("background-image",'url(' + data +')')
+                    //alert("ye");
+                    return;
+                })
+        
+                $.get('/images/deck.json',function(data){
+                    deck = (data);
+                    loadCard(thisUser);
+                    getLog();
+                    return;
+                })
+                
             $("#dropCard").on('click',function(){
                 dropCard(thisUser,selectedCard);
             })
