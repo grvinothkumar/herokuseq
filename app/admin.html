@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./styles.css">
+<script src="../js/jquery-3.4.1.min.js"></script>
+<script src="./admin.js"></script>
+<!--<meta http-equiv="refresh" content="3">-->
+<title>Sequence Game</title>
+</head>
+<body>
+
+<h1 class="header">Sequence Admin</h1>
+
+<div class='container'>
+        <div id='butboard'>
+                <table id='boardtable'>
+                        <tbody>
+                            <tr><td></td><td id='2S'></td><td id='3S'></td><td id='4S'></td><td id='5S'></td><td id='6S'></td><td id='7S'></td><td id='8S'></td><td id='9S'></td><td></td></tr>
+                            <tr><td id='6C'></td><td id='5C'></td><td id='4C'></td><td id='3C'></td><td id='2C'></td><td id='AH'></td><td id='KH'></td><td id='QH'></td><td id='10H'></td><td id='10S'></td></tr>
+                            <tr><td id='7C'></td><td id='AS1'></td><td id='2D1'></td><td id='3D1'></td><td id='4D1'></td><td id='5D1'></td><td id='6D1'></td><td id='7D1'></td><td id='9H'></td><td id='QS'></td></tr>
+                            <tr><td id='8C'></td><td id='KS1'></td><td id='6C1'></td><td id=5C1></td><td id='4C1'></td><td id='3C1'></td><td id='2C1'></td><td id='8D1'></td><td id='8H'></td><td id='KS'></td></tr>
+                            <tr><td id='9C'></td><td id='QS1'></td><td id='7C1'></td><td id='6H1'></td><td id='5H1'></td><td id='4H1'></td><td id='AH1'></td><td id='9D1'></td><td id='7H'></td><td id='AS'></td></tr>
+                            <tr><td id='10C'></td><td id='10S1'></td><td id='8C1'></td><td id='7H1'></td><td id='2H1'></td><td id='3H1'></td><td id='KH1'></td><td id='10D1'></td><td id='6H'></td><td id='2D'></td></tr>
+                            <tr><td id='QC'></td><td id='9S1'></td><td id='9C1'></td><td id='8H1'></td><td id='9H1'></td><td id='10H1'></td><td id='QH1'></td><td id='QD1'></td><td id='5H'></td><td id='3D'></td></tr>
+                            <tr><td id='KC'></td><td id='8S1'></td><td id='10C1'></td><td id='QC1'></td><td id='KC1'></td><td id='AC1'></td><td id='AD1'></td><td id='KD1'></td><td id='4H'></td><td id='4D'></td></tr>
+                            <tr><td id='AC'></td><td id='7S1'></td><td id='6S1'></td><td id='5S1'></td><td id='4S1'></td><td id='3S1'></td><td id='2S1'></td><td id='2H'></td><td id='3H'></td><td id='5D'></td></tr>
+                            <tr><td></td><td id=AD></td><td id="KD"></td><td id='QD'></td><td id='10D'></td><td id='9D'></td><td id='8D'></td><td id='7D'></td><td id='6D'></td><td></td></tr>
+                        </tbody>
+                </table>
+                
+            </div>
+            <br><input type="button" id="saveboard" value="Save"/>
+            <br><input type="button" id="updateboard" value="Place coins"/>
+    <div id='butpage'>
+        <div id='butsec'>
+            <input type='text' id='playerlist' style="width:450px;"><br><br>
+
+            <input class='button' type='button' id='initGame' value='Start Game'>
+            <input class='button' type='button' id='killGame' value='Kill Game'>
+            <input class='button' type='button' id='getplayers' value='Get Players'>
+            <input class='button' type='button' id='setplayers' value='Set Players'>
+            <input class='button' type='button' id='getitem' value='Localstorage'>
+            
+        
+    </div>
+
+
+</div> <!--Main Div-->
+</div>
+</body>
+</html>
