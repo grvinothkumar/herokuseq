@@ -50,8 +50,14 @@ app.post('/initgame',function(req,res){
   //var playerslist = body['players[]'];
   game = new Deck(gameName,players);
   //console.log(game.name);
-  game.initPlayers();
-  res.end('initiated');
+  //game.initPlayers();
+  res.end('Game Started');
+})
+
+app.post('/initplayers',function(req,res){
+ 
+  game.initPlayers(players);
+  res.end('Players initiated');
 })
 
 app.post('/killgame',function(req,res){

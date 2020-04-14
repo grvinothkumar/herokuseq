@@ -1,7 +1,7 @@
 
 $(document).ready(function (){
     var deck = {};
-    var gamestarted = false;
+//    var gamestarted = false;
     var thisUser=''
     var selectedCard=-1;
     
@@ -12,51 +12,56 @@ $(document).ready(function (){
         if(data!='Error'){
             
             if (data=="true"){
-                thisUser = localStorage.getItem("name");
-                loadGamePage();
-                return;
+
+                if((localStorage.getItem("name")!=null) && (localStorage.getItem("name")!=""))
+                {
+                    thisUser = localStorage.getItem("name");
+                    loadGamePage();
+                }
             }
             else{
                 localStorage.removeItem("name");
-                alert('Sorry Game already started')
+                //alert('Please wait game not started yet')
             }
-        
         }
             else{
             localStorage.removeItem("name");
-            return;
         }
+        return
     })
     
     $("#joingame").on('click',function(event){
 
         let playername = $("#playername").val().trim().toLowerCase();
 
-        $.post(url+'join', {'playername':playername},function(data,xhr){
+        $.post(url+'started', function(gamestarted,xhr){
 
-            if (data=="Player Joined"){
-                thisUser = playername;
-                localStorage.setItem("name", thisUser);
-                alert("Good Luck !!!  " + thisUser); 
-                loadGamePage();
+        
+            if(gamestarted=="true"){
+                $.post(url+'join', {'playername':playername},function(data,xhr){
+
+                    if (data=="Player Joined"){
+                        thisUser = playername;
+                        localStorage.setItem("name", thisUser);
+                        alert("Good Luck !!!  " + thisUser); 
+                        loadGamePage();
+                    }
+                    else{
+                        alert('Sorry, "' + playername + '" has already joined the game. Please choose different name' );
+                    }
+
+                })
             }
             else{
-                alert('Sorry, "' + playername + '" has already joined the game. Please choose different name' );
+                alert("Please wait game not started yet");
+                return;
             }
-
         })
-
-      
         return;
     })//Join button
 
     function loadGamePage(){
         
-       
-
-        
-
-
         //functions Load Game page
  
         $.get("gameboard.html", function(data, status){
@@ -127,33 +132,34 @@ $(document).ready(function (){
     
     function getLog(){
     
-        let log = "               ---Log---";
+        let log = '';
         $.post(url+'log', function(data,xhr){
             if(data!='Error'){
             data = JSON.parse(data);
             
             data.forEach((element,index) => {
                 
-                log += "\n Drop " + (index + 1) +" --->  Player : " + element.player + " " + element.dropCard
+                log = "\n Drop " + (index + 1) +" --->  Player : " + element.player + " " + element.dropCard + log
             
                 })
             }
+            log= "               ---Log---" + log
                 $("#dropLog").html(log) 
                 return;
         });
 
         $.post(url+'getboard', function(data,xhr){
         
-        let boardcoins = JSON.parse(data);
-        boardcoins.forEach(item=>{
-            // alert(JSON.stringify(item));
- 
-             let card = item.card;
-             let color = item.color;
- 
-             $("#"+card).attr("class",color);
-            
-         })
+                let boardcoins = JSON.parse(data);
+                boardcoins.forEach(item=>{
+                    // alert(JSON.stringify(item));
+        
+                    let card = item.card;
+                    let color = item.color;
+        
+                    $("#"+card).attr("class",color);
+                    
+                })
          return
         })
 

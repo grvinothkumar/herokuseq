@@ -13,6 +13,7 @@
 <h1 class="header">Sequence Admin</h1>
 
 <div class='container'>
+    <div id='boardcontainer'>
         <div id='butboard'>
                 <table id='boardtable'>
                         <tbody>
@@ -30,13 +31,17 @@
                 </table>
                 
             </div>
-            <br><input type="button" id="saveboard" value="Save"/>
-            <br><input type="button" id="updateboard" value="Place coins"/>
+        </div>
+            <div id="boardmaint">
+                <input class='button' type="button" id="saveboard" value="Save Coins"/>
+                <input class='button' type="button" id="updateboard" value="Get Coins"/>
+            </div>
     <div id='butpage'>
         <div id='butsec'>
             <input type='text' id='playerlist' style="width:450px;"><br><br>
 
             <input class='button' type='button' id='initGame' value='Start Game'>
+            <input class='button' type='button' id='assignPlayers' value='Assign Players'>
             <input class='button' type='button' id='killGame' value='Kill Game'>
             <input class='button' type='button' id='getplayers' value='Get Players'>
             <input class='button' type='button' id='setplayers' value='Set Players'>

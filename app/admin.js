@@ -11,8 +11,12 @@ $(document).ready(function (){
 
     $("#initGame").on('click',function(){
         var players = ["vinoth","divya","rakshan"]
-        initGame("Game",players);
+        initGame("Game");
         return;
+    })
+    $("#assignPlayers").on('click',function(){
+        assignPlayers();
+
     })
     $("#killGame").on('click',function(){
         //var players = ["vinoth","divya","rakshan"]
@@ -34,8 +38,9 @@ $(document).ready(function (){
 
      $("td").on('click' , function(event){
         var curattr=$(this).attr("class");
-        let color = ''
-        if(!curattr){
+        let color = '';
+
+        if((!curattr) || (curattr=='nocoins')){
             $(this).attr("class","red");
             color='red'
         }
@@ -48,7 +53,7 @@ $(document).ready(function (){
             color='blue'
         }
         else if(curattr=='blue'){
-            $(this).attr("class","");
+            $(this).attr("class","nocoins");
             color=""
         }
 
@@ -62,6 +67,7 @@ $(document).ready(function (){
         let redcount = $(".red").length;
         let greencount = $(".green").length;
         let bluecount = $(".blue").length;
+        let nocount = $(".nocoins").length;
         boardcoins=[];
         for(let i=0;i<redcount;i++){
             let card = $(".red").eq(i).attr('id');
@@ -75,7 +81,10 @@ $(document).ready(function (){
             let card = $(".blue").eq(i).attr('id');
             boardcoins.push({"card":card,"color":"blue"})
         }
-
+        for(let i=0;i<nocount;i++){
+            let card = $(".nocoins").eq(i).attr('id');
+            boardcoins.push({"card":card,"color":"nocoins"})
+        }
         $.post(url+'setboard', {"boardcoins":JSON.stringify(boardcoins)}, function(data,xhr){
             alert(data);
             return
@@ -104,6 +113,15 @@ $(document).ready(function (){
         $.post(url + 'initgame', data, function(data,xhr){
             //console.log(xhr);
             //loadCard(thisUser);
+            return;
+        });
+        return;
+    }
+
+    function assignPlayers(){
+        
+        $.post(url + 'initplayers', function(data,xhr){
+            
             return;
         });
         return;
