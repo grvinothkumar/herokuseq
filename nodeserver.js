@@ -7,7 +7,7 @@ const https = require('https');
 const fs = require('fs');  */
 const Deck = require('./js/deck.js');
 var game;
-var players=[];
+
 
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,8 +25,10 @@ app.post('/join',function(req,res){
   var body = JSON.parse(JSON.stringify(req.body))
   var playerName =  body['playername'];
 
+  players = game.getPlayers().players;
+
   if (players.indexOf(playerName) == -1){
-    players.push(playerName);
+    game.setPlayers(playerName);
     res.end("Player Joined")
   }
   else{
@@ -46,37 +48,41 @@ app.get('*',function(req,res){
 app.post('/initgame',function(req,res){
   var body = JSON.parse(JSON.stringify(req.body))
   var gameName =  body['game'];
-  console.log(players);
-  //var playerslist = body['players[]'];
-  game = new Deck(gameName,players);
-  //console.log(game.name);
-  //game.initPlayers();
+  game = new Deck(gameName);
   res.end('Game Started');
 })
 
 app.post('/initplayers',function(req,res){
  
-  game.initPlayers(players);
+  game.initPlayers();
   res.end('Players initiated');
 })
 
 app.post('/killgame',function(req,res){
-  //var body = JSON.parse(JSON.stringify(req.body))
   game = null;
-  players=[];
   res.end('killed');
 })
 
 app.post('/getplayers',function(req,res){
-
-  res.end(JSON.stringify(players));
+    try{
+    res.end(JSON.stringify(game.getPlayers()));
+  }
+  catch(err){
+    res.end("Players are not set");
+  }
 })
 
+
 app.post('/setplayers',function(req,res){
+  try{
   let users=(req.body.list);
-  console.log(users);
-  players = users.split(",");
+  let players = users.split(",");
+  game.setPlayers(players);
   res.end('Players Set');
+  }
+  catch(err){
+    res.end("Players are not set");
+  }
 })
 
 

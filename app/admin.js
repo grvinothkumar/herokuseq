@@ -136,12 +136,18 @@ $(document).ready(function (){
     }
 
     function getPlayers(){
-        $.post(url + 'getplayers', {"name":name}, function(data,xhr){
+        $.post(url + 'getplayers', function(data,xhr){
             //console.log(xhr);
-           // alert(data);
-            $("#playerlist").val(JSON.parse(data));
+            try{
+            data = JSON.parse(data);
+            $("#playerlist").val(data.players);
             //$("#playerlist").html(data);
             return data;
+            }
+            catch(err){
+                alert(data);
+                return data;
+            }
         });
 
     }

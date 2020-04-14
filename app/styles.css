@@ -20,6 +20,7 @@ label{
 .container{
     display:block;
     width:100%;
+    border:0px solid red;
 }
 
 /* page */
@@ -127,10 +128,33 @@ label{
     border:0px solid red;
     margin-left:50px;
     margin-bottom: 200px;
-    max-width: 250px;
+    max-width: 270px;
     max-height: 450px;
-    min-width: 250px;
+    min-width: 270px;
 
+}
+
+#logarea{
+    display: inline-block;
+    width: fit-content;
+    border:0px solid red;
+    margin-left:30px;
+}
+#currentplayerarea{
+    display: table;
+    width: fit-content;
+    margin-left:30px;
+    border:1px solid grey;
+    margin-top:30px;
+    margin-bottom: 50px;
+}
+#playerboardsave{
+    display: table;
+    width: fit-content;
+    margin-left:30px;
+    border:0px solid red;
+    margin-top:50px;
+    margin-bottom: 50px;
 }
 #mycardstable{
     border:2px solid grey;
@@ -138,7 +162,7 @@ label{
     table-layout: fixed;
 }
 .mycardrow{
-    height:175px;
+    height:170px;
     border:1px solid grey;
 }
 .mycardcol{
@@ -151,10 +175,14 @@ label{
     width: 100px;
     height: 40px;
     border-radius: 6px;
+    background-color: royalblue;
+    color:white;
 }
 
 #card1, #card2, #card3, #card4{
-    width:100%;
+    margin-left:3px;
+    margin-top:3px;
+    width:95%;
     height:175px;
 }
 
@@ -163,10 +191,14 @@ label{
     width:300px;
     max-height:600px;
     overflow: scroll;
-    margin-left:30px;
     margin-bottom:375px;
 }
 
+.bold{
+    font-weight: bold;
+    font-size: 20px;
+    color:blue;
+}
 .red{
     background:url("../images/red.svg");
 }
