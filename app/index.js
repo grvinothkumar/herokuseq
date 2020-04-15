@@ -85,22 +85,87 @@ $(document).ready(function (){
                     getLog();
                     return;
                 })
+                $("td").on('click' , function(event){
+                    var curattr=$(this).attr("class");
+                    let color = '';
+            
+                    if((!curattr) || (curattr=='nocoins')){
+                        $(this).attr("class","red");
+                        color='red'
+                    }
+                    else if(curattr=='red'){
+                        $(this).attr("class","green");
+                        color='green'
+                    }
+                    else if(curattr=='green'){
+                        $(this).attr("class","blue");
+                        color='blue'
+                    }
+                    else if(curattr=='blue'){
+                        $(this).attr("class","nocoins");
+                        color=""
+                    }
+            
+                    var col = $(this).parent().children().index($(this));
+                    var row = $(this).parent().parent().children().index($(this).parent());
+                    //console.log(col+ " " + row);
+                })
                 
             $("#dropCard").on('click',function(){
+                
                 if (selectedCard!=-1){
-                $("#dropCard").attr("disabled","disabled");
-                dropCard(thisUser,selectedCard);
+                    $("#" + selectedCard).find("img").hide();
+                    dropCard(thisUser,selectedCard);
+                    $("#saveBoard").removeAttr("disabled");
+                    $("#dropCard").attr("disabled","disabled");
                 }
                 else{
                     alert("Please select a card to drop");
                 }
             })
+            
+            $("#saveBoard").on('click',function(){
+
+                if (confirm("Are you sure to save the board") == true){
+
+                    let redcount = $(".red").length;
+                    let greencount = $(".green").length;
+                    let bluecount = $(".blue").length;
+                    let nocount = $(".nocoins").length;
+                    boardcoins=[];
+                    for(let i=0;i<redcount;i++){
+                        let card = $(".red").eq(i).attr('id');
+                        boardcoins.push({"card":card,"color":"red"})
+                    }
+                    for(let i=0;i<greencount;i++){
+                        let card = $(".green").eq(i).attr('id');
+                        boardcoins.push({"card":card,"color":"green"})
+                    }
+                    for(let i=0;i<bluecount;i++){
+                        let card = $(".blue").eq(i).attr('id');
+                        boardcoins.push({"card":card,"color":"blue"})
+                    }
+                    for(let i=0;i<nocount;i++){
+                        let card = $(".nocoins").eq(i).attr('id');
+                        boardcoins.push({"card":card,"color":"nocoins"})
+                    }
+                    $.post(url+'setboard', {"boardcoins":JSON.stringify(boardcoins)}, function(data,xhr){
+                        alert(data);
+                        $("#" + selectedCard).find("img").show();
+                        $("#saveBoard").attr("disabled","disabled");
+                    
+                    })
+
+                }
+                return;
+            })
 
             $(".mycardcol").on('click',function(){
+                if ($("#saveBoard").attr("disabled")=='disabled'){
                 $(".mycardcol").css("background-color","")
                 $(this).css("background-color","royalblue");
                 selectedCard = $(this).attr("id");
-                
+                }
             })
            
             return
@@ -163,57 +228,60 @@ $(document).ready(function (){
                 return;
         });
 
-        $.post(url+'getboard', function(data,xhr){
-                let boardcoins = JSON.parse(data);
-                boardcoins.forEach(item=>{
-                    // alert(JSON.stringify(item));
+        if ($("#saveBoard").attr("disabled")=='disabled'){
+                $.post(url+'getboard', function(data,xhr){
+                    let boardcoins = JSON.parse(data);
+                    boardcoins.forEach(item=>{
+                        // alert(JSON.stringify(item));
+            
+                        let card = item.card;
+                        let color = item.color;
+            
+                        $("#"+card).attr("class",color);
+                        
+                    })
+                    //need to change it to current player
+            return
+            })//get board
+
         
-                    let card = item.card;
-                    let color = item.color;
-        
-                    $("#"+card).attr("class",color);
-                    
-                })
+                $.post(url + 'getplayers', function(data,xhr){
+                    //console.log(xhr);
+                    //alert(data);
+                    data= JSON.parse(data);
 
-                //need to change it to current player
-        $.post(url + 'getplayers', function(data,xhr){
-                //console.log(xhr);
-                //alert(data);
-                data= JSON.parse(data);
-
-                if (data.players.length==0) 
-                {
-                    return;
-                }
-                let playing = data.players[data.active];
-                let bold = '';
-                let currentplayers='<span class="bold" style="color:black;border:1px solid grey;width:500px;display:block"> Who is playing? </span></br>';
-                let playingstatus = ""
-
-                $("#currentplayerarea").html('');
-                for(let i=0;i<data.players.length;i++){
-                    if (data.players[i]==playing) 
+                    if (data.players.length==0) 
                     {
-                        bold='bold';
-                        playingstatus = " is playing"
+                        return;
                     }
-                    else 
-                    {
-                    bold=''
-                    playingstatus=''
-                    }
-                    currentplayers += "<span class=" + bold + ">"  + "  -  " + data.players[i] + playingstatus + "</span></br>";
-                }
-                $("#currentplayerarea").html(currentplayers);
-                //$("#playerlist").html(data);
-                if(thisUser==playing){
-                    $("#dropCard").removeAttr("disabled","")
-                }
-                return data;
-        })
+                    let playing = data.players[data.active];
+                    let bold = '';
+                    let currentplayers='<span class="bold" style="color:black;border:1px solid grey;width:500px;display:block"> Who is playing? </span></br>';
+                    let playingstatus = ""
 
-         return
-        })
+                    $("#currentplayerarea").html('');
+                    for(let i=0;i<data.players.length;i++){
+                        if (data.players[i]==playing) 
+                        {
+                            bold='bold';
+                            playingstatus = " is playing"
+                        }
+                        else 
+                        {
+                        bold=''
+                        playingstatus=''
+                        }
+                        currentplayers += "<span class=" + bold + ">"  + "  -  " + data.players[i] + playingstatus + "</span></br>";
+                    }
+                    $("#currentplayerarea").html(currentplayers);
+                    //$("#playerlist").html(data);
+                    if(thisUser==playing){
+                        $("#dropCard").removeAttr("disabled","")
+                    }
+                    return data;
+                })//get player;
+        }//dropcard disabled if end
+
 
         return;
         
