@@ -12,7 +12,7 @@ $(document).ready(function (){
 
         if(data!='Error'){
             
-            if (data=="true"){
+            if ((data=="true") || (data=="inprogress")){
 
                 if((localStorage.getItem("name")!=null) && (localStorage.getItem("name")!=""))
                 {
