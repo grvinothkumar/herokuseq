@@ -37,7 +37,12 @@ $(document).ready(function (){
 
         $.post(url+'started', function(gamestarted,xhr){
 
-        
+        if(gamestarted=="inprogress"){
+
+            alert("Game is already in progress, please join next game.");
+            return;
+
+        }
             if(gamestarted=="true"){
                 $.post(url+'join', {'playername':playername},function(data,xhr){
 

@@ -132,7 +132,7 @@ app.post('/setboard',function(req,res){
 })
 app.post('/started',function(req,res){
   try{
-  var gamestatus = JSON.stringify(game.gamestatus());
+  var gamestatus = (game.gamestatus());
   res.end(gamestatus);
   }
   catch(err){

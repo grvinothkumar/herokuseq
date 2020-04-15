@@ -7,7 +7,7 @@ class Deck {
             this.players={};
             this.dropLog=[];
             this.boardLog=[];
-            this.gamestarted = true;
+            this.gamestarted = "true";
             this.currentPlayer = 0;
     }
 
@@ -39,7 +39,7 @@ class Deck {
             }
             this.players = players;
            // console.log(this.players);
-            //this.gamestarted=true;
+            this.gamestarted='inprogress';
             return ;
     }
     
