@@ -151,7 +151,7 @@ $(document).ready(function (){
                         boardcoins.push({"card":card,"color":"nocoins"})
                     }
                     $.post(url+'setboard', {"boardcoins":JSON.stringify(boardcoins)}, function(data,xhr){
-                        alert(data);
+                        //alert(data);
                         $("#" + selectedCard).find("img").show();
                         $("#saveBoard").attr("disabled","disabled");
                     
