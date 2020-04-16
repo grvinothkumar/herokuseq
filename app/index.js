@@ -155,7 +155,7 @@ $(document).ready(function (){
                         //alert(data);
                         $("#" + selectedCard).find("img").show();
                         $("#saveBoard").attr("disabled","disabled");
-                    
+                        getLog();
                     })
 
                 }
@@ -185,7 +185,6 @@ $(document).ready(function (){
         $.post(url + 'dropcard', data, function(data,xhr){
             if (data!='"Error"'){
             loadImage(JSON.parse((data)));
-            getLog();
         return;
             }
         });
