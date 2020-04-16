@@ -85,7 +85,7 @@ $(document).ready(function (){
                     getLog();
                     return;
                 })
-                $("td").on('click' , function(event){
+                $("#boardtable").find("td").on('click' , function(event){
                     var curattr=$(this).attr("class");
                     let color = '';
             
@@ -105,6 +105,7 @@ $(document).ready(function (){
                         $(this).attr("class","nocoins");
                         color=""
                     }
+                    //$(this).attr("class",color+ " selectedCell")
             
                     var col = $(this).parent().children().index($(this));
                     var row = $(this).parent().parent().children().index($(this).parent());
@@ -115,9 +116,9 @@ $(document).ready(function (){
                 
                 if (selectedCard!=-1){
                     $("#" + selectedCard).find("img").hide();
-                    dropCard(thisUser,selectedCard);
                     $("#saveBoard").removeAttr("disabled");
                     $("#dropCard").attr("disabled","disabled");
+                    dropCard(thisUser,selectedCard);
                 }
                 else{
                     alert("Please select a card to drop");
@@ -212,6 +213,7 @@ $(document).ready(function (){
         
         if(gamestatus==false) return;
 
+        if ($("#saveBoard").attr("disabled")=='disabled'){
         let log = '';
         $.post(url+'log', function(data,xhr){
             if(data!='Error'){
@@ -228,18 +230,17 @@ $(document).ready(function (){
                 return;
         });
 
-        if ($("#saveBoard").attr("disabled")=='disabled'){
-                $.post(url+'getboard', function(data,xhr){
-                    let boardcoins = JSON.parse(data);
-                    boardcoins.forEach(item=>{
-                        // alert(JSON.stringify(item));
-            
-                        let card = item.card;
-                        let color = item.color;
-            
-                        $("#"+card).attr("class",color);
-                        
-                    })
+        $.post(url+'getboard', function(data,xhr){
+                let boardcoins = JSON.parse(data);
+                boardcoins.forEach(item=>{
+                    // alert(JSON.stringify(item));
+        
+                    let card = item.card;
+                    let color = item.color;
+                    
+                    $("#"+card).attr("class",color);
+                    
+                })
                     //need to change it to current player
             return
             })//get board
