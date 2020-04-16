@@ -118,7 +118,7 @@ $(document).ready(function (){
                     $("#" + selectedCard).find("img").hide();
                     $("#saveBoard").removeAttr("disabled");
                     $("#dropCard").attr("disabled","disabled");
-                    dropCard(thisUser,selectedCard);
+                    
                 }
                 else{
                     alert("Please select a card to drop");
@@ -128,7 +128,8 @@ $(document).ready(function (){
             $("#saveBoard").on('click',function(){
 
                 if (confirm("Are you sure to save the board") == true){
-
+                    
+                    dropCard(thisUser,selectedCard);
                     let redcount = $(".red").length;
                     let greencount = $(".green").length;
                     let bluecount = $(".blue").length;
