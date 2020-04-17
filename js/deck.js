@@ -7,7 +7,7 @@ class Deck {
             this.players={};
             this.dropLog=[];
             this.boardLog=[];
-            this.gamestarted = "true";
+            this.gamestarted = "started";
             this.currentPlayer = 0;
     }
 

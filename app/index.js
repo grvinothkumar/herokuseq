@@ -9,15 +9,15 @@ $(document).ready(function (){
     var url = (document.URL).slice(0,-4);
     
     $.post(url+'started', function(data,xhr){
-
+    
         if(data!='Error'){
             
-            if ((data=="true") || (data=="inprogress")){
+            if ((data=="started") || (data=="inprogress")){
 
                 if((localStorage.getItem("name")!=null) && (localStorage.getItem("name")!=""))
                 {
                     thisUser = localStorage.getItem("name");
-                    loadGamePage();
+                   loadGamePage();
                 }
             }
             else{
@@ -34,6 +34,11 @@ $(document).ready(function (){
     $("#joingame").on('click',function(event){
 
         let playername = $("#playername").val().trim().toLowerCase();
+        
+        if (playername.search(/[^A-Za-z0-9]+/g)>-1) {
+            alert("Enter your name without space.");
+            return;
+        }
 
         $.post(url+'started', function(gamestarted,xhr){
 
@@ -43,7 +48,7 @@ $(document).ready(function (){
             return;
 
         }
-            if(gamestarted=="true"){
+            if(gamestarted=="started"){
                 $.post(url+'join', {'playername':playername},function(data,xhr){
 
                     if (data=="Player Joined"){
@@ -86,6 +91,8 @@ $(document).ready(function (){
                     return;
                 })
                 $("#boardtable").find("td").on('click' , function(event){
+
+                    if ($("#saveBoard").attr("disabled")=='disabled') return;
                     var curattr=$(this).attr("class");
                     let color = '';
             
@@ -118,7 +125,7 @@ $(document).ready(function (){
                     $("#" + selectedCard).find("img").hide();
                     $("#saveBoard").removeAttr("disabled");
                     $("#dropCard").attr("disabled","disabled");
-                    
+                    $("#refresh").attr("disabled","disabled");
                 }
                 else{
                     alert("Please select a card to drop");
@@ -155,6 +162,7 @@ $(document).ready(function (){
                         //alert(data);
                         $("#" + selectedCard).find("img").show();
                         $("#saveBoard").attr("disabled","disabled");
+                        $("#refresh").removeAttr("disabled");
                         getLog();
                     })
 
@@ -195,7 +203,7 @@ $(document).ready(function (){
         try{
         var data = {'user':name};
         $.post(url + 'loadcard', data, function(data,xhr){
-            if(data!='Error'){
+            if((data!='Error')&&(data!="")){
             loadImage(JSON.parse((data)));
             gamestatus=true;
             logstatus();
@@ -225,7 +233,7 @@ $(document).ready(function (){
             
                 })
             }
-            log= "               ---Log---" + log
+            log = "                    ---    Dropped Cards    ---" + log;
                 $("#dropLog").html(log) 
                 return;
         });

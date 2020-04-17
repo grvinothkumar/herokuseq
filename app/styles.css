@@ -15,6 +15,8 @@ label{
     margin: 5px 5px 5px 5px;
     width:100px;
     height:50px;
+    background-color: lightgray;
+    font-weight: bold;
 }
 
 .container{
@@ -147,6 +149,7 @@ label{
     border:1px solid grey;
     margin-top:30px;
     margin-bottom: 50px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 #playerboardsave{
     display: table;
@@ -170,24 +173,34 @@ label{
 }
 
 #dropCard{
-    margin-left: 70px;
+    margin-left: 48px;
     margin-top: 15px;
-    width: 100px;
+    width: 175px;
     height: 50px;
     border-radius: 6px;
-    background-color: royalblue;
-    color:white;
     font-size:16px;
+    font-weight: bold;
+    background-color:lightgray;
 }
 #saveBoard{
-    margin-left: 200px;
+    margin-left: 90px;
     margin-top: 40px;
-    width: 120px;
+    width: 175px;
     height: 50px;
     border-radius: 6px;
-    background-color: royalblue;
-    color:white;
     font-size:16px;
+    font-weight: bold;
+    background-color:lightgray;
+}
+#refresh{
+    margin-left: 10px;
+    margin-top: 40px;
+    width: 175px;
+    height: 50px;
+    border-radius: 6px;
+    font-size:16px;
+    font-weight: bold;
+    background-color:lightgray;
 }
 
 #card1, #card2, #card3, #card4{
@@ -199,7 +212,7 @@ label{
 
 #dropLog{
     border:1px solid black;
-    width:300px;
+    width:500px;
     max-height:600px;
     overflow: scroll;
     margin-bottom:375px;
@@ -207,7 +220,7 @@ label{
 
 .bold{
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
     color:blue;
 }
 .red{
