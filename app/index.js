@@ -1,4 +1,3 @@
-
 $(document).ready(function (){
     var deck = {};
 //    var gamestarted = false;
@@ -11,16 +10,18 @@ $(document).ready(function (){
     $.post(url+'started', function(data,xhr){
     
         if(data!='Error'){
-            
-            if ((data=="started") || (data=="inprogress")){
+            //(data=="started") ||
+            if ((data=="inprogress")){
 
                 if((localStorage.getItem("name")!=null) && (localStorage.getItem("name")!=""))
                 {
                     thisUser = localStorage.getItem("name");
-                   loadGamePage();
+                    loadGamePage();
                 }
+
             }
             else{
+
                 localStorage.removeItem("name");
                 //alert('Please wait game not started yet')
             }
@@ -233,7 +234,7 @@ $(document).ready(function (){
             
                 })
             }
-            log = "                    ---    Dropped Cards    ---" + log;
+            log = "               ---    Dropped Cards    ---" + log;
                 $("#dropLog").html(log) 
                 return;
         });
