@@ -10,8 +10,8 @@ $(document).ready(function (){
     $.post(url+'started', function(data,xhr){
     
         if(data!='Error'){
-            //(data=="started") ||
-            if ((data=="inprogress")){
+            //
+            if ((data=="started") || (data=="inprogress")){
 
                 if((localStorage.getItem("name")!=null) && (localStorage.getItem("name")!=""))
                 {
