@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./styles.css">
+<script src="../js/jquery-3.4.1.min.js"></script>
+<script src="./join.js"></script>
+<!--<meta http-equiv="refresh" content="3">-->
+<title>Sequence Game</title>
+</head>
+<body>
+
+<h1 class="header">Sequence</h1>
+
+<div class='container'>
+
+    <div id='joinpage'>
+        <div id='namesec'>
+        <label>Player Name: </label><input type = 'text' placeholder='Enter your name' id="playername" />
+        </div>
+        <div id='joinsec'>
+            <input type='button' value="JOIN" id='joingame' />
+        </div>
+        
+    </div>
+
+    <table>
+            <tbody>
+                    <tr><td onclick="get()">
+                            <div class="mainimg">
+                                    <div class='num'>
+                                            <label>A</label>
+                                    </div>
+                                    <div class='token'>
+                                        <svg>
+                                        </svg>                  
+                                    </div>
+                                    <div class='sym'>
+                                        <svg>
+                                        </svg>
+                                    </div>
+                                                
+                                </div>
+                            
+                    </td></tr>
+
+
+            </tbody>
+        </table>
+
+    
+
+</div> <!--Main Div-->
+</div>
+</body>
+<script>
+
+function get(){
+    $("#token svg").hide()
+}
+
+</script>
+<style>
+.mainimg{
+    border:1px solid black;
+    min-width:65px;
+    min-height:60px;
+    margin:3px 3px 3px 3px;
+    border-radius: 3px;
+}
+
+.num{
+    border:0px solid green; 
+    max-width:20px;
+    margin-left:5px;
+}
+.token{
+    border:0px solid coral; 
+    max-width:25px;
+    max-height:25px;
+    min-width:25px;
+    min-height:25px;
+    margin-top:-4px;
+    margin-left:20px;
+    background-image: url("../images/green.svg");
+    background-repeat: no-repeat;
+    height: 15pt;
+}
+.sym{
+    border: 0px solid blue;
+    max-width: 16px;
+    margin-left: 45px;
+    background-image: url("../images/h.svg");
+    background-repeat: no-repeat;
+    height: 15pt;
+}
+table{
+    border:1px solid red;
+    margin:0 auto;
+}
+label{
+    font-weight: bold;
+    font-size:24px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+</style>
+</html>

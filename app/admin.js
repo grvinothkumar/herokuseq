@@ -1,8 +1,28 @@
 
 $(document).ready(function (){
     
+    var layout = [{"i":"no"},{"i":"0","c":"s","n":"2"},{"i":"0","c":"s","n":"3"},{"i":"0","c":"s","n":"4"},{"i":"0","c":"s","n":"5"},{"i":"0","c":"s","n":"6"},{"i":"0","c":"s","n":"7"},{"i":"0","c":"s","n":"8"},{"i":"0","c":"s","n":"9"},{"i":"no"},{"i":"0","c":"c","n":"6"},{"i":"0","c":"c","n":"5"},{"i":"0","c":"c","n":"4"},{"i":"0","c":"c","n":"3"},{"i":"0","c":"c","n":"2"},{"i":"0","c":"h","n":"A"},{"i":"0","c":"h","n":"K"},{"i":"0","c":"h","n":"Q"},{"i":"0","c":"h","n":"T"},{"i":"0","c":"s","n":"T"},{"i":"0","c":"c","n":"7"},{"i":"1","c":"s","n":"A"},{"i":"1","c":"d","n":"2"},{"i":"1","c":"d","n":"3"},{"i":"1","c":"d","n":"4"},{"i":"1","c":"d","n":"5"},{"i":"1","c":"d","n":"6"},{"i":"1","c":"d","n":"7"},{"i":"0","c":"h","n":"9"},{"i":"0","c":"s","n":"Q"},{"i":"0","c":"c","n":"8"},{"i":"1","c":"s","n":"K"},{"i":"1","c":"c","n":"6"},{"i":"1","c":"c","n":"5"},{"i":"1","c":"c","n":"4"},{"i":"1","c":"c","n":"3"},{"i":"1","c":"c","n":"2"},{"i":"1","c":"d","n":"8"},{"i":"0","c":"h","n":"8"},{"i":"0","c":"s","n":"K"},{"i":"0","c":"c","n":"9"},{"i":"1","c":"s","n":"Q"},{"i":"1","c":"c","n":"7"},{"i":"1","c":"h","n":"6"},{"i":"1","c":"h","n":"5"},{"i":"1","c":"h","n":"4"},{"i":"1","c":"h","n":"A"},{"i":"1","c":"d","n":"9"},{"i":"0","c":"h","n":"7"},{"i":"0","c":"s","n":"A"},{"i":"0","c":"c","n":"T"},{"i":"1","c":"s","n":"T"},{"i":"1","c":"c","n":"8"},{"i":"1","c":"h","n":"7"},{"i":"1","c":"h","n":"2"},{"i":"1","c":"h","n":"3"},{"i":"1","c":"h","n":"K"},{"i":"1","c":"d","n":"T"},{"i":"0","c":"h","n":"6"},{"i":"0","c":"c","n":"2"},{"i":"0","c":"c","n":"Q"},{"i":"1","c":"s","n":"9"},{"i":"1","c":"c","n":"9"},{"i":"1","c":"h","n":"8"},{"i":"1","c":"h","n":"9"},{"i":"1","c":"h","n":"T"},{"i":"1","c":"h","n":"Q"},{"i":"1","c":"d","n":"Q"},{"i":"0","c":"h","n":"5"},{"i":"0","c":"c","n":"3"},{"i":"0","c":"c","n":"K"},{"i":"1","c":"s","n":"8"},{"i":"1","c":"c","n":"T"},{"i":"1","c":"c","n":"Q"},{"i":"1","c":"c","n":"K"},{"i":"1","c":"c","n":"A"},{"i":"1","c":"d","n":"A"},{"i":"1","c":"d","n":"K"},{"i":"0","c":"h","n":"4"},{"i":"0","c":"c","n":"4"},{"i":"0","c":"c","n":"A"},{"i":"1","c":"s","n":"7"},{"i":"1","c":"s","n":"6"},{"i":"1","c":"s","n":"5"},{"i":"1","c":"s","n":"4"},{"i":"1","c":"s","n":"3"},{"i":"1","c":"s","n":"2"},{"i":"0","c":"h","n":"2"},{"i":"0","c":"h","n":"3"},{"i":"0","c":"c","n":"5"},{"i":"no"},{"i":"0","c":"d","n":"A"},{"i":"0","c":"d","n":"K"},{"i":"0","c":"d","n":"Q"},{"i":"0","c":"d","n":"T"},{"i":"0","c":"d","n":"9"},{"i":"0","c":"d","n":"8"},{"i":"0","c":"d","n":"7"},{"i":"0","c":"d","n":"6"},{"i":"no"}]
+
     var boardcoins=[]
     var url = (document.URL).slice(0,-14);
+    
+    for (i=0;i<100;i++){
+        let layouts=layout[i];
+        let num = layouts.n=="T"?"10":layouts.n;
+        let classname = layouts.c+"sym";
+        let tabid = num + layouts.c + (layouts.i=="0"?"":layouts.i)
+        let textcolor = layouts.c;
+
+        if ((textcolor=="h") || (textcolor=="d")){
+            $("td").eq(i).find($(".mainimg")).find($(".num")).attr("style","color:red");    
+        }
+        $("td").eq(i).find($(".mainimg")).find($(".num")).html(num);
+        let divv = $("td").eq(i).find($(".mainimg")).find($("div"));
+        divv.eq(2).attr("class",classname);
+        $("td").eq(i).attr("id",tabid);
+    }
+    
+
     $.get('/images/sequenceboard.txt',function(data){
         $("#butboard").css("background-image",'url(' + data +')')
         //alert("ye");
@@ -37,23 +57,24 @@ $(document).ready(function (){
      })
 
      $("td").on('click' , function(event){
-        var curattr=$(this).attr("class");
+        var div = $(".mainimg");
+        var curattr=$(this).find(div).attr("class");
         let color = '';
-
-        if((!curattr) || (curattr=='nocoins')){
-            $(this).attr("class","red");
+        
+        if((curattr=="mainimg") || (curattr=="mainimg nocoins")){
+            $(this).find(div).attr("class","mainimg red");
             color='red'
         }
-        else if(curattr=='red'){
-            $(this).attr("class","green");
+        else if(curattr=='mainimg red'){
+            $(this).find(div).attr("class","mainimg green");
             color='green'
         }
-        else if(curattr=='green'){
-            $(this).attr("class","blue");
+        else if(curattr=='mainimg green'){
+            $(this).find(div).attr("class","mainimg blue");
             color='blue'
         }
-        else if(curattr=='blue'){
-            $(this).attr("class","nocoins");
+        else if(curattr=='mainimg blue'){
+            $(this).find(div).attr("class","mainimg nocoins");
             color=""
         }
 
@@ -69,20 +90,21 @@ $(document).ready(function (){
         let bluecount = $(".blue").length;
         let nocount = $(".nocoins").length;
         boardcoins=[];
+
         for(let i=0;i<redcount;i++){
-            let card = $(".red").eq(i).attr('id');
+            let card = $(".red").eq(i).parent().attr('id');
             boardcoins.push({"card":card,"color":"red"})
         }
         for(let i=0;i<greencount;i++){
-            let card = $(".green").eq(i).attr('id');
+            let card = $(".green").eq(i).parent().attr('id');
             boardcoins.push({"card":card,"color":"green"})
         }
         for(let i=0;i<bluecount;i++){
-            let card = $(".blue").eq(i).attr('id');
+            let card = $(".blue").eq(i).parent().attr('id');
             boardcoins.push({"card":card,"color":"blue"})
         }
         for(let i=0;i<nocount;i++){
-            let card = $(".nocoins").eq(i).attr('id');
+            let card = $(".nocoins").eq(i).parent().attr('id');
             boardcoins.push({"card":card,"color":"nocoins"})
         }
         $.post(url+'setboard', {"boardcoins":JSON.stringify(boardcoins)}, function(data,xhr){
@@ -97,9 +119,9 @@ $(document).ready(function (){
             let boardcoins = JSON.parse(data);
             boardcoins.forEach(item=>{
                  let card = item.card;
-                 let color = item.color;
-              $("#"+card).attr("class",color);
-               
+                 let color = "mainimg " + item.color;
+              $("#"+card).find($(".mainimg")).attr("class",color);
+              $("#"+card).find($(".mainimg")).css("border","4px solid blue");
              })
              return
             })

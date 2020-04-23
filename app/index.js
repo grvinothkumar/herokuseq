@@ -78,23 +78,47 @@ $(document).ready(function (){
  
         $.get("gameboard.html", function(data, status){
                 $(".container").html(data);
+                $("#logcontainer").hide();
 
-                $.get('/images/sequenceboard.txt',function(data){
+                /* $.get('/images/sequenceboard.txt',function(data){
                     $("#board").css("background-image",'url(' + data +')')
                     //alert("ye");
                     return;
-                })
+                }) */
         
                 $.get('/images/deck.json',function(data){
                     deck = (data);
                     loadCard(thisUser);
-                    getLog();
+                    //getLog();
                     return;
                 })
-                $("#boardtable").find("td").on('click' , function(event){
 
-                    if ($("#saveBoard").attr("disabled")=='disabled') return;
-                    var curattr=$(this).attr("class");
+                /* new code for layout */
+                    var layout = [{"i":"no"},{"i":"0","c":"s","n":"2"},{"i":"0","c":"s","n":"3"},{"i":"0","c":"s","n":"4"},{"i":"0","c":"s","n":"5"},{"i":"0","c":"s","n":"6"},{"i":"0","c":"s","n":"7"},{"i":"0","c":"s","n":"8"},{"i":"0","c":"s","n":"9"},{"i":"no"},{"i":"0","c":"c","n":"6"},{"i":"0","c":"c","n":"5"},{"i":"0","c":"c","n":"4"},{"i":"0","c":"c","n":"3"},{"i":"0","c":"c","n":"2"},{"i":"0","c":"h","n":"A"},{"i":"0","c":"h","n":"K"},{"i":"0","c":"h","n":"Q"},{"i":"0","c":"h","n":"T"},{"i":"0","c":"s","n":"T"},{"i":"0","c":"c","n":"7"},{"i":"1","c":"s","n":"A"},{"i":"1","c":"d","n":"2"},{"i":"1","c":"d","n":"3"},{"i":"1","c":"d","n":"4"},{"i":"1","c":"d","n":"5"},{"i":"1","c":"d","n":"6"},{"i":"1","c":"d","n":"7"},{"i":"0","c":"h","n":"9"},{"i":"0","c":"s","n":"Q"},{"i":"0","c":"c","n":"8"},{"i":"1","c":"s","n":"K"},{"i":"1","c":"c","n":"6"},{"i":"1","c":"c","n":"5"},{"i":"1","c":"c","n":"4"},{"i":"1","c":"c","n":"3"},{"i":"1","c":"c","n":"2"},{"i":"1","c":"d","n":"8"},{"i":"0","c":"h","n":"8"},{"i":"0","c":"s","n":"K"},{"i":"0","c":"c","n":"9"},{"i":"1","c":"s","n":"Q"},{"i":"1","c":"c","n":"7"},{"i":"1","c":"h","n":"6"},{"i":"1","c":"h","n":"5"},{"i":"1","c":"h","n":"4"},{"i":"1","c":"h","n":"A"},{"i":"1","c":"d","n":"9"},{"i":"0","c":"h","n":"7"},{"i":"0","c":"s","n":"A"},{"i":"0","c":"c","n":"T"},{"i":"1","c":"s","n":"T"},{"i":"1","c":"c","n":"8"},{"i":"1","c":"h","n":"7"},{"i":"1","c":"h","n":"2"},{"i":"1","c":"h","n":"3"},{"i":"1","c":"h","n":"K"},{"i":"1","c":"d","n":"T"},{"i":"0","c":"h","n":"6"},{"i":"0","c":"c","n":"2"},{"i":"0","c":"c","n":"Q"},{"i":"1","c":"s","n":"9"},{"i":"1","c":"c","n":"9"},{"i":"1","c":"h","n":"8"},{"i":"1","c":"h","n":"9"},{"i":"1","c":"h","n":"T"},{"i":"1","c":"h","n":"Q"},{"i":"1","c":"d","n":"Q"},{"i":"0","c":"h","n":"5"},{"i":"0","c":"c","n":"3"},{"i":"0","c":"c","n":"K"},{"i":"1","c":"s","n":"8"},{"i":"1","c":"c","n":"T"},{"i":"1","c":"c","n":"Q"},{"i":"1","c":"c","n":"K"},{"i":"1","c":"c","n":"A"},{"i":"1","c":"d","n":"A"},{"i":"1","c":"d","n":"K"},{"i":"0","c":"h","n":"4"},{"i":"0","c":"c","n":"4"},{"i":"0","c":"c","n":"A"},{"i":"1","c":"s","n":"7"},{"i":"1","c":"s","n":"6"},{"i":"1","c":"s","n":"5"},{"i":"1","c":"s","n":"4"},{"i":"1","c":"s","n":"3"},{"i":"1","c":"s","n":"2"},{"i":"0","c":"h","n":"2"},{"i":"0","c":"h","n":"3"},{"i":"0","c":"c","n":"5"},{"i":"no"},{"i":"0","c":"d","n":"A"},{"i":"0","c":"d","n":"K"},{"i":"0","c":"d","n":"Q"},{"i":"0","c":"d","n":"T"},{"i":"0","c":"d","n":"9"},{"i":"0","c":"d","n":"8"},{"i":"0","c":"d","n":"7"},{"i":"0","c":"d","n":"6"},{"i":"no"}]
+                    var boardcoins=[];
+                    
+                    for (i=0;i<100;i++){
+                        let layouts=layout[i];
+                        let num = layouts.n=="T"?"10":layouts.n;
+                        let classname = layouts.c+"sym";
+                        let tabid = num + layouts.c + (layouts.i=="0"?"":layouts.i)
+                        let textcolor = layouts.c;
+
+                        if ((textcolor=="h") || (textcolor=="d")){
+                            $("td").eq(i).find($(".mainimg")).find($(".num")).attr("style","color:red");    
+                        }
+                        $("td").eq(i).find($(".mainimg")).find($(".num")).html(num);
+                        let divv = $("td").eq(i).find($(".mainimg")).find($("div"));
+                        divv.eq(2).attr("class",classname);
+                        $("td").eq(i).attr("id",tabid);
+                    }
+                /* new code*/
+
+                //$("#boardtable").find("td").on('click' , function(event){
+
+                  //  if ($("#saveBoard").attr("disabled")=='disabled') return;
+                    /* old
+                     var curattr=$(this).attr("class");
                     let color = '';
             
                     if((!curattr) || (curattr=='nocoins')){
@@ -112,12 +136,37 @@ $(document).ready(function (){
                     else if(curattr=='blue'){
                         $(this).attr("class","nocoins");
                         color=""
-                    }
-                    //$(this).attr("class",color+ " selectedCell")
-            
-                    var col = $(this).parent().children().index($(this));
-                    var row = $(this).parent().parent().children().index($(this).parent());
-                    //console.log(col+ " " + row);
+                    } */
+                    $("#gameboard").find("td").on('click' , function(event){
+
+                    if ($("#saveBoard").attr("disabled")=='disabled') return;
+                        
+                            var div = $(".mainimg");
+                            var curattr=$(this).find(div).attr("class");
+                            let color = '';
+                            
+                            if((curattr=="mainimg") || (curattr=="mainimg nocoins")){
+                                $(this).find(div).attr("class","mainimg red");
+                                color='red'
+                            }
+                            else if(curattr=='mainimg red'){
+                                $(this).find(div).attr("class","mainimg green");
+                                color='green'
+                            }
+                            else if(curattr=='mainimg green'){
+                                $(this).find(div).attr("class","mainimg blue");
+                                color='blue'
+                            }
+                            else if(curattr=='mainimg blue'){
+                                $(this).find(div).attr("class","mainimg nocoins");
+                                color=""
+                            }
+
+                            //$(this).attr("class",color+ " selectedCell")
+                    
+                            var col = $(this).parent().children().index($(this));
+                            var row = $(this).parent().parent().children().index($(this).parent());
+                            //console.log(col+ " " + row);
                 })
                 
             $("#dropCard").on('click',function(){
@@ -138,6 +187,8 @@ $(document).ready(function (){
                 if (confirm("Are you sure to save the board") == true){
                     
                     dropCard(thisUser,selectedCard);
+
+                    /* OLD 
                     let redcount = $(".red").length;
                     let greencount = $(".green").length;
                     let bluecount = $(".blue").length;
@@ -158,7 +209,31 @@ $(document).ready(function (){
                     for(let i=0;i<nocount;i++){
                         let card = $(".nocoins").eq(i).attr('id');
                         boardcoins.push({"card":card,"color":"nocoins"})
+                    } */
+
+                    let redcount = $(".red").length;
+                    let greencount = $(".green").length;
+                    let bluecount = $(".blue").length;
+                    let nocount = $(".nocoins").length;
+                    boardcoins=[];
+            
+                    for(let i=0;i<redcount;i++){
+                        let card = $(".red").eq(i).parent().attr('id');
+                        boardcoins.push({"card":card,"color":"red"})
                     }
+                    for(let i=0;i<greencount;i++){
+                        let card = $(".green").eq(i).parent().attr('id');
+                        boardcoins.push({"card":card,"color":"green"})
+                    }
+                    for(let i=0;i<bluecount;i++){
+                        let card = $(".blue").eq(i).parent().attr('id');
+                        boardcoins.push({"card":card,"color":"blue"})
+                    }
+                    for(let i=0;i<nocount;i++){
+                        let card = $(".nocoins").eq(i).parent().attr('id');
+                        boardcoins.push({"card":card,"color":"nocoins"})
+                    }
+
                     $.post(url+'setboard', {"boardcoins":JSON.stringify(boardcoins)}, function(data,xhr){
                         //alert(data);
                         $("#" + selectedCard).find("img").show();
@@ -170,6 +245,7 @@ $(document).ready(function (){
                 }
                 return;
             })
+        
 
             $(".mycardcol").on('click',function(){
                 if ($("#saveBoard").attr("disabled")=='disabled'){
@@ -182,7 +258,8 @@ $(document).ready(function (){
             return
         })// end load board page
         
-        logstatus();
+       logstatus();
+       
        return;
     }//loadgame page
 
@@ -207,7 +284,7 @@ $(document).ready(function (){
             if((data!='Error')&&(data!="")){
             loadImage(JSON.parse((data)));
             gamestatus=true;
-            logstatus();
+            getLog();
             }
             return;
         });
@@ -221,7 +298,8 @@ $(document).ready(function (){
     function getLog(){
         
         if(gamestatus==false) return;
-
+        
+        $("#logcontainer").show();
         if ($("#saveBoard").attr("disabled")=='disabled'){
         let log = '';
         $.post(url+'log', function(data,xhr){
@@ -243,12 +321,20 @@ $(document).ready(function (){
                 let boardcoins = JSON.parse(data);
                 boardcoins.forEach(item=>{
                     // alert(JSON.stringify(item));
-        
+                    
                     let card = item.card;
-                    let color = item.color;
+                    let color = "mainimg " + item.color;
+                    $("#"+card).find($(".mainimg")).removeClass("newitem");
+                    let existingcolor = $("#"+card).find($(".mainimg")).attr("class");
+
+                    //alert(existingcolor + " -- new color-- " + color);
+                    /* if(color != existingcolor){
+                        color += " newitem";
+                    } */
                     
-                    $("#"+card).attr("class",color);
-                    
+                    $("#"+card).find($(".mainimg")).attr("class",color);
+                    //alert($("#"+card).find($(".mainimg")).attr("class"))
+                    color='';  
                 })
                     //need to change it to current player
             return
@@ -266,7 +352,7 @@ $(document).ready(function (){
                     }
                     let playing = data.players[data.active];
                     let bold = '';
-                    let currentplayers='<span class="bold" style="color:black;border:1px solid grey;width:500px;display:block"> Who is playing? </span></br>';
+                    let currentplayers='<span class="bold" style="color:black;border:1px solid grey;width:400px;display:block"> Who is playing? </span></br>';
                     let playingstatus = ""
 
                     $("#currentplayerarea").html('');
@@ -310,6 +396,10 @@ $(document).ready(function (){
     }
 
     function logstatus(){
+        console.log(gamestatus);
+        if(gamestatus==false){
+            loadCard(thisUser);
+        }
         
         getLog();   
         setTimeout(logstatus, 7000);
