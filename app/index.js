@@ -185,9 +185,10 @@ $(document).ready(function (){
                 if (selectedCard!=-1){
                     //selectedCardName = $("#" + selectedCard).find($("img")).attr("alt");
                     $("#" + selectedCard).find("img").hide();
-                    $("#saveBoard").removeAttr("disabled");
                     $("#dropCard").attr("disabled","disabled");
                     $("#refresh").attr("disabled","disabled");
+                    $("#saveBoard").removeAttr("disabled");
+                    
                 }
                 else{
                     alert("Please select a card to drop");
@@ -249,6 +250,7 @@ $(document).ready(function (){
                     $.post(url+'setboard', {"boardcoins":JSON.stringify(boardcoins)}, function(data,xhr){
                         //alert(data);
                         $("#" + selectedCard).find("img").show();
+                        $("#dropCard").attr("disabled","disabled");
                         $("#saveBoard").attr("disabled","disabled");
                         $("#refresh").removeAttr("disabled");
                         getLog();
