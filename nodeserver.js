@@ -37,6 +37,58 @@ app.post('/join',function(req,res){
   
 })
 
+app.post('/jointeam',function(req,res){
+
+  var body = JSON.parse(JSON.stringify(req.body))
+  var playerName =  body['playername'];
+  var playerTeam =  body['team'];
+
+  /* if (playerTeam=='red')
+  {
+    players = game.redteam;
+
+  }
+  else if(playerTeam=='green'){
+    players = game.greenteam;
+  }
+  else if (playerTeam=='blue') {
+    players = game.blueteam
+  } */ 
+  let red = game.redteam;
+  let green = game.greenteam;
+  let blue = game.blueteam;
+
+  players = [...red,...green,...blue]
+  
+  if (players.indexOf(playerName) == -1){
+  
+    game.joinTeam(playerName,playerTeam);
+    res.end("Player Joined")
+  }
+  else{
+    
+      if ((red.indexOf(playerName)!=-1)&&(playerTeam!='red')){
+        game.redteam = game.redteam.filter(item => item !== playerName)
+        game.joinTeam(playerName,playerTeam);
+        res.end("Player Joined")
+      }
+      if ((green.indexOf(playerName)!=-1)&&(playerTeam!='green')){
+        game.greenteam = game.greenteam.filter(item => item !== playerName)
+        game.joinTeam(playerName,playerTeam);
+        res.end("Player Joined")
+      }
+      if ((blue.indexOf(playerName)!=-1)&&(playerTeam!='blue')){
+        game.blueteam = game.blueteam.filter(item => item !== playerName)
+        game.joinTeam(playerName,playerTeam);
+        res.end("Player Joined")
+      }
+    
+  
+    res.end("Player name already exists");
+  }
+  
+})
+
 app.get('/app',function(req,res){
   //res.sendFile((__dirname+'/app/index.html'));
 });
@@ -72,6 +124,33 @@ app.post('/getplayers',function(req,res){
   }
 })
 
+app.post('/getteams',function(req,res){
+  try{
+    let red = game.redteam;
+    let green = game.greenteam;
+    let blue = game.blueteam;
+
+    let teams = {"red":red,"green":green,"blue":blue};
+    
+    res.end(JSON.stringify(teams));
+  }
+  catch(err){
+    res.end("Players are not set");
+  }
+})
+
+
+app.post('/setplayers',function(req,res){
+  try{
+  let users=(req.body.list);
+  let players = users.split(",");
+  game.setPlayers(players);
+  res.end('Players Set');
+  }
+  catch(err){
+    res.end("Players are not set");
+  }
+})
 
 app.post('/setplayers',function(req,res){
   try{

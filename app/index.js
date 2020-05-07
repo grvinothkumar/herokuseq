@@ -5,10 +5,39 @@ $(document).ready(function (){
     var selectedCard=-1;
     var selectedCardName="";
     var gamestatus = false;
+    var interval = 3000;
     
     var url = (document.URL).slice(0,-4);
+   
     
+    logstatus();
+
     $.post(url+'started', function(data,xhr){
+        if(data!='Error'){
+            //
+            if ((data=="inprogress")){
+
+                if((localStorage.getItem("name")!=null) && (localStorage.getItem("name")!=""))
+                {
+                      thisUser = localStorage.getItem("name");    
+                      loadGamePage();
+                      //alert("started");
+                }
+
+            }
+            else if(data=='started'){
+                thisUser = localStorage.getItem("name");
+                $("#playername").val(thisUser);
+                //alert('Please wait game not started yet')
+                getTeamLog();
+            }
+        }
+            else{
+            localStorage.removeItem("name");
+        }
+        return
+    }) 
+/*     $.post(url+'started', function(data,xhr){
     
         if(data!='Error'){
             if ((data=='newgame')){
@@ -35,8 +64,8 @@ $(document).ready(function (){
             localStorage.removeItem("name");
         }
         return
-    })
-    
+    }) */
+ /*    
     $("#joingame").on('click',function(event){
 
         let playername = $("#playername").val().trim().toLowerCase();
@@ -75,7 +104,102 @@ $(document).ready(function (){
             }
         })
         return;
-    })//Join button
+    })//Join button */
+
+    /* Join Team */
+
+    $("#joinred").on('click',function(event){
+        joinTeam('red')
+       
+    })
+    $("#joingreen").on('click',function(event){
+        joinTeam('green')
+       
+    })
+    $("#joinblue").on('click',function(event){
+        joinTeam('blue')
+       
+    })
+    //Join button
+    
+
+    function joinTeam(team){
+
+        let playername = $("#playername").val().trim().toLowerCase();
+        
+
+        if ((playername=='') || (playername.search(/[^A-Za-z0-9]+/g)>-1)) {
+            alert("Enter your name without space.");
+            return;
+        }
+
+        $.post(url+'started', function(gamestarted,xhr){
+
+        if(gamestarted=="inprogress"){
+
+            alert("Game is already in progress, please join next game.");
+            return;
+
+        }
+            if(gamestarted=="started"){
+                $.post(url+'jointeam', {'playername':playername, 'team':team},function(data,xhr){
+
+                    if (data=="Player Joined"){
+                        thisUser = playername;
+                        localStorage.setItem("name", thisUser);
+                        getTeamLog();
+                    }
+                    else{
+                        alert('Sorry, "' + playername + '" has already joined the team. You can change team' );
+                    }
+
+                })
+            }
+            else{
+                alert("Please wait game not started yet");
+                return;
+            }
+        })
+        
+        return;
+    }
+
+    function getTeamLog(){
+        $.post(url+'started', function(data,xhr){
+                if ((data=="inprogress")){
+                    loadGamePage();  
+                    return;
+                }
+            })
+        $.post(url+'getteams', function(data,xhr){
+            if(data=='Players are not set'){ return }
+
+            data = JSON.parse(data);
+                let red = data.red;
+                let green = data.green;
+                let blue = data.blue;
+                let redteam = "<span class='teamtitle'>RED TEAM</span><br>";
+                let greenteam = "<span class='teamtitle'>GREEN TEAM</span><br>";
+                let blueteam = "<span class='teamtitle'>BLUE TEAM</span><br>";
+
+            for(i=0;i<red.length;i++){
+                redteam += "<span>" + red[i] + "</span><br>"
+            }
+            for(i=0;i<green.length;i++){
+                greenteam += "<span>" + green[i] + "</span><br>"
+            }
+            for(i=0;i<blue.length;i++){
+                blueteam += "<span>" + blue[i] + "</span><br>"
+            }
+            $("#redteam").html(redteam);
+            $("#greenteam").html(greenteam);
+            $("#blueteam").html(blueteam);
+        })
+        return;      
+    }
+    
+    /* end join team */
+
 
     function loadGamePage(){
         
@@ -84,16 +208,11 @@ $(document).ready(function (){
         $.get("gameboard.html", function(data, status){
                 $(".container").html(data);
                 $("#logcontainer").hide();
-
-                /* $.get('/images/sequenceboard.txt',function(data){
-                    $("#board").css("background-image",'url(' + data +')')
-                    //alert("ye");
-                    return;
-                }) */
         
                 $.get('/images/deck.json',function(data){
                     deck = (data);
                     loadCard(thisUser);
+                    interval = 6000;
                     //getLog();
                     return;
                 })
@@ -118,30 +237,6 @@ $(document).ready(function (){
                         $("td").eq(i).attr("id",tabid);
                     }
                 /* new code*/
-
-                //$("#boardtable").find("td").on('click' , function(event){
-
-                  //  if ($("#saveBoard").attr("disabled")=='disabled') return;
-                    /* old
-                     var curattr=$(this).attr("class");
-                    let color = '';
-            
-                    if((!curattr) || (curattr=='nocoins')){
-                        $(this).attr("class","red");
-                        color='red'
-                    }
-                    else if(curattr=='red'){
-                        $(this).attr("class","green");
-                        color='green'
-                    }
-                    else if(curattr=='green'){
-                        $(this).attr("class","blue");
-                        color='blue'
-                    }
-                    else if(curattr=='blue'){
-                        $(this).attr("class","nocoins");
-                        color=""
-                    } */
                     $("#gameboard").find("td").on('click' , function(event){
 
                     if ($("#saveBoard").attr("disabled")=='disabled') return;
@@ -201,29 +296,6 @@ $(document).ready(function (){
                     
                     dropCard(thisUser,selectedCard);
 
-                    /* OLD 
-                    let redcount = $(".red").length;
-                    let greencount = $(".green").length;
-                    let bluecount = $(".blue").length;
-                    let nocount = $(".nocoins").length;
-                    boardcoins=[];
-                    for(let i=0;i<redcount;i++){
-                        let card = $(".red").eq(i).attr('id');
-                        boardcoins.push({"card":card,"color":"red"})
-                    }
-                    for(let i=0;i<greencount;i++){
-                        let card = $(".green").eq(i).attr('id');
-                        boardcoins.push({"card":card,"color":"green"})
-                    }
-                    for(let i=0;i<bluecount;i++){
-                        let card = $(".blue").eq(i).attr('id');
-                        boardcoins.push({"card":card,"color":"blue"})
-                    }
-                    for(let i=0;i<nocount;i++){
-                        let card = $(".nocoins").eq(i).attr('id');
-                        boardcoins.push({"card":card,"color":"nocoins"})
-                    } */
-
                     let redcount = $(".red").length;
                     let greencount = $(".green").length;
                     let bluecount = $(".blue").length;
@@ -271,8 +343,6 @@ $(document).ready(function (){
            
             return
         })// end load board page
-        
-       logstatus();
        
        return;
     }//loadgame page
@@ -296,9 +366,10 @@ $(document).ready(function (){
         var data = {'user':name};
         $.post(url + 'loadcard', data, function(data,xhr){
             if((data!='Error')&&(data!="")){
+               // alert(data);
             loadImage(JSON.parse((data)));
             gamestatus=true;
-            getLog();
+            //getLog();
             }
             return;
         });
@@ -317,9 +388,12 @@ $(document).ready(function (){
         if ($("#saveBoard").attr("disabled")=='disabled'){
         let log = '';
         $.post(url+'log', function(data,xhr){
+            
             if(data!='Error'){
             data = JSON.parse(data);
-            
+            if (data.length==0){
+                loadCard(thisUser);
+            }
             data.forEach((element,index) => {
                 
                 log = "\n Drop " + (index + 1) +" --->  Player : " + element.player + " " + element.dropCard + log
@@ -341,11 +415,6 @@ $(document).ready(function (){
                     $("#"+card).find($(".mainimg")).removeClass("newitem");
                     let existingcolor = $("#"+card).find($(".mainimg")).attr("class");
 
-                    //alert(existingcolor + " -- new color-- " + color);
-                    /* if(color != existingcolor){
-                        color += " newitem";
-                    } */
-                    
                     $("#"+card).find($(".mainimg")).attr("class",color);
                     //alert($("#"+card).find($(".mainimg")).attr("class"))
                     color='';  
@@ -357,18 +426,25 @@ $(document).ready(function (){
         
                 $.post(url + 'getplayers', function(data,xhr){
                     //console.log(xhr);
-                    //alert(data);
+
+                    if((data=='Players are not set')){
+                        location.reload();
+                        return;
+                    }
                     data= JSON.parse(data);
 
                     if (data.players.length==0) 
                     {
+                        location.reload();
                         return;
                     }
                     let playing = data.players[data.active];
                     let bold = '';
                     let currentplayers='<span class="bold" style="color:black;border:1px solid grey;width:400px;display:block"> Who is playing? </span></br>';
                     let playingstatus = ""
-
+                    let teamscount =  data.teams.length;
+                    let color = '';
+                    let coloritr = 0;
                     $("#currentplayerarea").html('');
                     for(let i=0;i<data.players.length;i++){
                         if (data.players[i]==playing) 
@@ -381,12 +457,22 @@ $(document).ready(function (){
                         bold=''
                         playingstatus=''
                         }
-                        currentplayers += "<span class=" + bold + ">"  + "  -  " + data.players[i] + playingstatus + "</span></br>";
+                        
+                        color = data.teams[coloritr];
+                        coloritr++;
+                        if (coloritr==teamscount) coloritr=0;
+
+                        let attributes = "class='" + bold + "' style= 'color:" + color + "'>";
+
+                        currentplayers += "<span " + attributes + " >"  + "  -  " + data.players[i] + playingstatus + "</span></br>";
                     }
                     $("#currentplayerarea").html(currentplayers);
                     //$("#playerlist").html(data);
                     if(thisUser==playing){
                         $("#dropCard").removeAttr("disabled","")
+                    }
+                    else{
+                        $("#dropCard").attr("disabled","disabled");
                     }
                     return data;
                 })//get player;
@@ -410,11 +496,13 @@ $(document).ready(function (){
     }
 
     function logstatus(){
+       
         if(gamestatus==false){
+            getTeamLog();
             loadCard(thisUser);
         }
         getLog();   
-        setTimeout(logstatus, 7000);
+        setTimeout(logstatus, interval);
     }
 
     //functions
